@@ -30,7 +30,8 @@ jobs:
             source venv/bin/activate
             pip install -r requirements.txt
 
-            pkill -f streamlit || true
+            fuser -k 8501/tcp || true
             sleep 2
-            nohup venv/bin/streamlit run form_app.py --server.port 8501 > streamlit.log 2>&1 &
+            nohup venv/bin/streamlit run form_app.py --server.port 8501 > streamlit.log 2>&1 < /dev/null &
             disown
+            echo "Deploy script finished"
