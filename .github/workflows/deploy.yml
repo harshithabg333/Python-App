@@ -22,8 +22,15 @@ jobs:
             else
               git pull origin main
             fi
+
+            if [ ! -d "venv" ]; then
+              python3 -m venv venv
+            fi
+
+            source venv/bin/activate
             pip install -r requirements.txt
+
             pkill -f streamlit || true
             sleep 2
-            nohup streamlit run form_app.py --server.port 8501 > streamlit.log 2>&1 &
+            nohup venv/bin/streamlit run form_app.py --server.port 8501 > streamlit.log 2>&1 &
             disown
