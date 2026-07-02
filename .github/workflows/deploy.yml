@@ -26,4 +26,4 @@ jobs:
             fi
             pip install -r requirements.txt
             pkill -f streamlit || true
-            nohup streamlit run form_app_2.py --server.port 8501 &
+            nohup streamlit run form_app.py --server.port 8501 &
