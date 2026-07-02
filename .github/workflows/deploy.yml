@@ -1,25 +1,6 @@
-name: Deploy to EC2
-
-on:
-  push:
-    branches: [ main ]
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
+script: |
+            echo "Checking host: ${{ secrets.EC2_HOST }}"
             cd ~/my-app
-            # If this is the first run, clone the repo, otherwise pull
             if [ ! -d ".git" ]; then
               git clone https://github.com/harshithabg333/Streamlit-Python.git .
             else
