@@ -2,20 +2,16 @@ name: Deploy to EC2
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
-          # Using your specific secret name for the host
-          host: ${{ secrets.My_First_Python_Action }}
+          host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
@@ -28,4 +24,6 @@ jobs:
             fi
             pip install -r requirements.txt
             pkill -f streamlit || true
-            nohup streamlit run form_app.py --server.port 8501 &
+            sleep 2
+            nohup streamlit run form_app.py --server.port 8501 > streamlit.log 2>&1 &
+            disown
